@@ -21,49 +21,53 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 @EnableConfigurationProperties(AuthorizationServerProperties::class) // Enable property binding
 class AuthorizationServerConfig {
 
-    @Bean
-    @Order(1)
-    fun authorizationServerSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
-        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
+  @Bean
+  @Order(1)
+  fun authorizationServerSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
+    OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
 
-        http
-            .getConfigurer(OAuth2AuthorizationServerConfigurer::class.java)
-            .oidc(Customizer.withDefaults())
+    http
+        .getConfigurer(OAuth2AuthorizationServerConfigurer::class.java)
+        .oidc(Customizer.withDefaults())
 
-        http
-            .exceptionHandling { exceptions ->
-                exceptions.authenticationEntryPoint(LoginUrlAuthenticationEntryPoint("/login"))
-            }
-            .oauth2ResourceServer { resourceServer -> resourceServer.jwt(Customizer.withDefaults()) }
+    http
+        .exceptionHandling { exceptions ->
+          exceptions.authenticationEntryPoint(LoginUrlAuthenticationEntryPoint("/login"))
+        }
+        .oauth2ResourceServer { resourceServer -> resourceServer.jwt(Customizer.withDefaults()) }
 
-        return http.build()
-    }
+    return http.build()
+  }
 
-    @Bean
-    @Order(2)
-    fun defaultSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
-        http
-            .authorizeHttpRequests { authorize ->
-                authorize
-                    .requestMatchers("/register", "/css/**", "/css/**", "/js/**", "/error")
-                    .permitAll()
-                    .anyRequest()
-                    .authenticated()
-            }
-            .formLogin { formLogin -> formLogin.loginPage("/login").defaultSuccessUrl("/").permitAll() }
+  @Bean
+  @Order(2)
+  fun defaultSecurityFilterChain(http: HttpSecurity): SecurityFilterChain {
+    http
+        .authorizeHttpRequests { authorize ->
+          authorize
+              .requestMatchers("/register", "/css/**", "/css/**", "/js/**", "/error")
+              .permitAll()
+              .anyRequest()
+              .authenticated()
+        }
+        .formLogin { formLogin -> formLogin.loginPage("/login").defaultSuccessUrl("/").permitAll() }
 
-        return http.build()
-    }
+    return http.build()
+  }
 
-    @Bean
-    fun authorizationServerSettings(authorizationServerProperties: AuthorizationServerProperties): AuthorizationServerSettings {
-        return AuthorizationServerSettings.builder().issuer(authorizationServerProperties.issuerUri).build()
-    }
+  @Bean
+  fun authorizationServerSettings(
+      authorizationServerProperties: AuthorizationServerProperties
+  ): AuthorizationServerSettings {
+    return AuthorizationServerSettings.builder()
+        .issuer(authorizationServerProperties.issuerUri)
+        .build()
+  }
 
-    @Bean
-    fun passwordEncoder(): PasswordEncoder {
-        return BCryptPasswordEncoder()
-    }
+  @Bean
+  fun passwordEncoder(): PasswordEncoder {
+    return BCryptPasswordEncoder()
+  }
 }
 
 @ConfigurationProperties(prefix = "spring.authorization.server")

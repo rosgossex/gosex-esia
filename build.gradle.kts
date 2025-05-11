@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.run.BootRun
 
 plugins {
   id("org.springframework.boot") version "3.2.0"
@@ -42,3 +43,24 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.withType<Test> { useJUnitPlatform() }
+
+fun readEnvFile(envFile: File): Map<String, String> {
+  val env = mutableMapOf<String, String>()
+  if (envFile.exists()) {
+    envFile
+        .readLines()
+        .filter { it.isNotBlank() && !it.startsWith("#") }
+        .forEach { line ->
+          val (key, value) = line.split("=", limit = 2)
+          env[key.trim()] = value.trim()
+        }
+  }
+  return env
+}
+
+tasks.named<BootRun>("bootRun") {
+  val envFile = file(".env.dev")
+  if (envFile.exists()) {
+    environment.putAll(readEnvFile(envFile))
+  }
+}

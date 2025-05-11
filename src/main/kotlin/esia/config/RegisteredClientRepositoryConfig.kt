@@ -22,8 +22,6 @@ class RegisteredClientRepositoryConfig {
       registeredClientProperties: RegisteredClientProperties,
       passwordEncoder: PasswordEncoder
   ): RegisteredClientRepository {
-    println("registeredClientProperties:")
-    println(registeredClientProperties)
     val registeredClient =
         RegisteredClient.withId(UUID.randomUUID().toString())
             .clientId(registeredClientProperties.clientId)
