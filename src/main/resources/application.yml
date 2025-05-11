@@ -13,3 +13,9 @@ spring:
 
 server:
   port: ${APP_PORT}
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.security.oauth2.server.authorization: TRACE

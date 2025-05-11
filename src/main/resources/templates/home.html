@@ -1,0 +1,72 @@
+<!doctype html>
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="https://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
+    <head>
+        <title>Home</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f4f4f4;
+                padding: 20px;
+            }
+            .container {
+                background: white;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .logout-btn {
+                background-color: #f44336;
+                color: white;
+                padding: 8px 12px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Welcome to the OAuth Service</h1>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="logout-btn">Logout</button>
+                </form>
+            </div>
+
+            <div>
+                <h2>Your Information</h2>
+                <p>Username: <span sec:authentication="name"></span></p>
+                <p>
+                    Roles:
+                    <span sec:authentication="principal.authorities"></span>
+                </p>
+            </div>
+
+            <div>
+                <h2>OAuth Authorization Server</h2>
+                <p>
+                    This is a simple OAuth 2.0 Authorization Server
+                    implementation using Spring Security.
+                </p>
+                <p>
+                    You can use this server to protect your APIs and implement
+                    single sign-on functionality.
+                </p>
+            </div>
+        </div>
+    </body>
+</html>
