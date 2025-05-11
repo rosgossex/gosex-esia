@@ -17,9 +17,7 @@ class TestDataConfig(
   @Bean
   fun initTestData(): CommandLineRunner {
     return CommandLineRunner { args ->
-      // Check if we have any users
       if (userRepository.count() == 0L) {
-        // Create a test admin user
         val adminAuthority = Authority(username = "admin", authority = "ROLE_USER")
 
         val adminUser =
@@ -31,8 +29,6 @@ class TestDataConfig(
                 authorities = mutableSetOf(adminAuthority))
 
         userRepository.save(adminUser)
-
-        println("Created test user: admin / admin")
       }
     }
   }

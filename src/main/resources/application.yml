@@ -10,6 +10,17 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+  security:
+    oauth2:
+      client:
+        registration:
+          esia-client:
+            client-id: gosex-app
+            client-secret: secret
+            client-authentication-method: client_secret_basic
+            authorization-grant-type: authorization_code
+            redirect-uri: http://127.0.0.1:5000/callback
+            scopes: openid,read
 
 server:
   port: ${APP_PORT}
@@ -19,3 +30,5 @@ logging:
     org.springframework.security: DEBUG
     org.springframework.security.oauth2: DEBUG
     org.springframework.security.oauth2.server.authorization: TRACE
+
+debug: true
