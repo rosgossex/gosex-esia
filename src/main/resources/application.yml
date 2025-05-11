@@ -21,7 +21,9 @@ spring:
             authorization-grant-type: authorization_code
             redirect-uri: http://127.0.0.1:5000/callback
             scopes: openid,read
-
+  authorization:
+    server:
+      issuer-uri: ${APP_HOST}:${APP_PORT}
 server:
   port: ${APP_PORT}
 
