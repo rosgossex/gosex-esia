@@ -13,3 +13,10 @@
 ```shell
 ./gradlew ktfmtFormat     
 ```
+
+
+## Deployment
+
+```shell
+docker compose up -d --wait --build
+```

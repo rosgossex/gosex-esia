@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:${POSTGRES_PORT}/${POSTGRES_DB}
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
@@ -23,9 +23,9 @@ spring:
             scopes: openid,read
   authorization:
     server:
-      issuer-uri: ${APP_HOST}:${APP_PORT}
+      issuer-uri: ${APP_AUTHORIZATION_ISSUER_URI}
 server:
-  port: ${APP_PORT}
+  port: 8080
 
 logging:
   level:

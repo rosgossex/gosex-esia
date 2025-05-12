@@ -2,16 +2,15 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
 plugins {
-  id("org.springframework.boot") version "3.2.0"
-  id("io.spring.dependency-management") version "1.1.4"
-  id("com.ncorti.ktfmt.gradle") version "0.22.0"
-  kotlin("jvm") version "2.1.20"
-  kotlin("plugin.spring") version "2.1.20"
-  kotlin("plugin.jpa") version "2.1.20"
+  alias(libs.plugins.spring.boot)
+  alias(libs.plugins.spring.dependency.management)
+  alias(libs.plugins.ktfmt)
+  alias(libs.plugins.kotlin.jvm)
+  alias(libs.plugins.kotlin.plugin.spring)
+  alias(libs.plugins.kotlin.plugin.jpa)
 }
 
 group = "gosex-esia"
-
 version = "0.0.1-SNAPSHOT"
 
 java.sourceCompatibility = JavaVersion.VERSION_17
