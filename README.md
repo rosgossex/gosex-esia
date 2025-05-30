@@ -1,22 +1,9 @@
-# Mock ESIA (ЕСИА) authorization server
+# Сервис авторизации
 
-## Development
+Сервис авторизации на основе Keycloak для тестирования интеграции с ЕСИА
 
-**Build and run:**
-
-```shell
-./gradlew clean bootRun
-```
-
-**Format:**
+## Разработка
 
 ```shell
-./gradlew ktfmtFormat     
-```
-
-
-## Deployment
-
-```shell
-docker compose up -d --wait --build
+docker compose up -d --wait
 ```
