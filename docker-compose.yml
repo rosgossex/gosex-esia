@@ -4,11 +4,12 @@ services:
     ports:
       - 8080:8080
     environment:
-      KC_BOOTSTRAP_ADMIN_USERNAME: admin 
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
       KC_SPI_THEME_STATIC_MAX_AGE: -1
       KC_SPI_THEME_CACHE_THEMES: "false"
       KC_SPI_THEME_CACHE_TEMPLATES: "false"
     volumes:
       - ./themes:/opt/keycloak/themes/
-    command: start-dev
+      - ./data:/opt/keycloak/data/
+    command: ["start-dev", "--import-realm"]

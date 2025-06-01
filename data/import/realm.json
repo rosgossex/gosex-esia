@@ -1,0 +1,17 @@
+{
+  "realm": "gosex",
+  "enabled": true,
+  "sslRequired": "none",
+  "loginTheme": "esia-theme",
+  "clients": [
+    {
+      "clientId": "gosex-app",
+      "publicClient": true,
+      "redirectUris": [
+        "gosex-app://oauth/callback",
+        "http://localhost:5000/callback",
+        "https://www.keycloak.org/app/*"
+      ]
+    }
+  ]
+}
