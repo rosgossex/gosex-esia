@@ -3,6 +3,3 @@
 build
 
 .kotlin
-
-/data/*
-!/data/import/
