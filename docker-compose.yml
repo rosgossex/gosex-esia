@@ -1,32 +1,49 @@
 services:
   esia:
-    image: quay.io/keycloak/keycloak:${KEYCLOAK_VERSION}
+    image: ${GOSEX_ESIA_KEYCLOAK_IMAGE}:${GOSEX_ESIA_KEYCLOAK_VERSION}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
-      - 8080:8080
+      - ${GOSEX_ESIA_PORT}:8080
     environment:
-      KC_DB: ${KC_DB}
-      KC_DB_URL: ${KC_DB_URL}
-      KC_DB_USERNAME: ${KC_DB_USERNAME}
-      KC_DB_PASSWORD: ${KC_DB_PASSWORD}
-      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN}
-      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
-      KC_BOOTSTRAP_ADMIN_USERNAME: admin
-      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HEALTH_ENABLED: ${GOSEX_ESIA_KC_HEALTH_ENABLED}
+      KC_DB: ${GOSEX_ESIA_KC_DB}
+      KC_DB_URL: ${GOSEX_ESIA_KC_DB_URL}
+      KC_DB_USERNAME: ${GOSEX_ESIA_KC_DB_USERNAME}
+      KC_DB_PASSWORD: ${GOSEX_ESIA_KC_DB_PASSWORD}
+      KEYCLOAK_ADMIN: ${GOSEX_ESIA_KEYCLOAK_ADMIN}
+      KEYCLOAK_ADMIN_PASSWORD: ${GOSEX_ESIA_KEYCLOAK_ADMIN_PASSWORD}
     volumes:
       - ./themes:/opt/keycloak/themes/
       - ./data/import:/opt/keycloak/data/import/
     command: ["start-dev", "--import-realm"]
+    networks:
+      - gosex-network
 
   db:
-    image: postgres:${POSTGRES_VERSION}
+    image: ${GOSEX_ESIA_POSTGRES_IMAGE}:${GOSEX_ESIA_POSTGRES_VERSION}
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${GOSEX_ESIA_POSTGRES_DB}
+      POSTGRES_USER: ${GOSEX_ESIA_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${GOSEX_ESIA_POSTGRES_PASSWORD}
     volumes:
       - keycloak_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${GOSEX_ESIA_POSTGRES_USER} -d ${GOSEX_ESIA_POSTGRES_DB}",
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    networks:
+      - gosex-network
 
 volumes:
   keycloak_db_data:
+
+networks:
+  gosex-network:
