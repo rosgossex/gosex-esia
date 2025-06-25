@@ -18,8 +18,6 @@ services:
       - ./themes:/opt/keycloak/themes/
       - ./data/import:/opt/keycloak/data/import/
     command: ["start-dev", "--import-realm"]
-    networks:
-      - gosex-network
 
   db:
     image: ${GOSEX_ESIA_POSTGRES_IMAGE}:${GOSEX_ESIA_POSTGRES_VERSION}
@@ -39,11 +37,6 @@ services:
       timeout: 3s
       retries: 5
       start_period: 10s
-    networks:
-      - gosex-network
 
 volumes:
   keycloak_db_data:
-
-networks:
-  gosex-network:
