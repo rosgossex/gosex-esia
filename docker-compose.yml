@@ -5,7 +5,7 @@ services:
       db:
         condition: service_healthy
     ports:
-      - ${GOSEX_ESIA_PORT}:8080
+      - "4242:8080"
     environment:
       KC_HEALTH_ENABLED: ${GOSEX_ESIA_KC_HEALTH_ENABLED}
       KC_DB: ${GOSEX_ESIA_KC_DB}
